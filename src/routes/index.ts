@@ -1,9 +1,9 @@
-import { router as productsRoutes } from "./products";
+import { categories as categoriesRoutes } from "./categories";
 
 import { Router } from "express";
 
 const router: Router = Router();
 
-router.use("/products", productsRoutes);
+router.use("/products/categories", categoriesRoutes);
 
 export { router };

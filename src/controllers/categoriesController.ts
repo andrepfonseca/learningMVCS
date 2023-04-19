@@ -6,6 +6,8 @@ import {
   categoriesNames,
   categoryCreate,
   categoryId,
+  putCategory,
+  removeCategory,
 } from "../services/categoriesServices";
 
 const knexInstance: Knex = knex(config);
@@ -43,12 +45,8 @@ const update = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
     const { name }: { name: string } = req.body;
-
-    await knexInstance("categories").update({ name }).where({ id });
-    res.status(201).send({
-      id,
-      name,
-    });
+    const category = await putCategory(name, id);
+    res.status(201).send(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
   }
@@ -57,12 +55,8 @@ const update = async (req: Request, res: Response): Promise<void> => {
 const remove = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
-
-    const category: number = await knexInstance("categories")
-      .delete()
-      .where({ id });
-    if (!category) throw new Error("Category does not exist");
-    res.status(200).json({ message: "Category deleted" });
+    const category = await removeCategory(id);
+    res.status(200).json(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
   }

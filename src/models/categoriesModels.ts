@@ -30,3 +30,11 @@ export const createNewCategory = async (name: string) => {
   const id: number[] = await knexInstance("categories").insert({ name });
   return id;
 };
+
+export const updateCategory = async (name: string, id: number) => {
+  return await knexInstance("categories").update({ name }).where({ id });
+};
+
+export const deleteCategory = async (id: number) => {
+  return await knexInstance("categories").delete().where({ id });
+};
