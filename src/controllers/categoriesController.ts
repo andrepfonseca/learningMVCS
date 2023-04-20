@@ -1,7 +1,4 @@
 import { Request, Response } from "express";
-import knex from "knex";
-import config from "../../knexfile";
-import { Knex } from "knex";
 import {
   getCategoriesNames,
   createCategory,
@@ -9,8 +6,6 @@ import {
   putCategory,
   removeCategory,
 } from "../services/categoriesServices";
-
-const knexInstance: Knex = knex(config);
 
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
