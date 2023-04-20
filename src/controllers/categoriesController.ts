@@ -1,15 +1,9 @@
 import { Request, Response } from "express";
-import {
-  getCategoriesNames,
-  createCategory,
-  getCategoryById,
-  putCategory,
-  removeCategory,
-} from "../services/categoriesServices";
+import categoriesServices from "../services/categoriesServices";
 
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const categoriesArray = await getCategoriesNames();
+    const categoriesArray = await categoriesServices.getCategoriesNames();
     res.status(200).send(categoriesArray);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -19,7 +13,7 @@ const index = async (_req: Request, res: Response): Promise<void> => {
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
-    const category = await getCategoryById(id);
+    const category = await categoriesServices.getCategoryById(id);
     res.status(200).send(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -29,7 +23,7 @@ const show = async (req: Request, res: Response): Promise<void> => {
 const insert = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name }: { name: string } = req.body;
-    const createdCategory = await createCategory(name);
+    const createdCategory = await categoriesServices.createCategory(name);
     res.status(201).send(createdCategory);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -40,7 +34,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
     const { name }: { name: string } = req.body;
-    const category = await putCategory(name, id);
+    const category = await categoriesServices.putCategory(name, id);
     res.status(201).send(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -50,7 +44,7 @@ const update = async (req: Request, res: Response): Promise<void> => {
 const remove = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
-    const category = await removeCategory(id);
+    const category = await categoriesServices.removeCategory(id);
     res.status(200).json(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
