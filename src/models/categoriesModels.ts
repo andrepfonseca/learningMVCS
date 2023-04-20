@@ -5,28 +5,28 @@ import { Knex } from "knex";
 
 const knexInstance: Knex = knex(config);
 
-export const getCategoriesNames = async () => {
+export const selectAllCategoriesNames = async () => {
   const categories: Category[] = await knexInstance("categories").select(
     "name"
   );
   return categories;
 };
 
-export const getCategoryById = async (id: number) => {
+export const selectCategoryById = async (id: number) => {
   const category: Category[] = await knexInstance("categories")
     .select("*")
     .where({ "categories.id": id });
   return category;
 };
 
-export const getCategoryByName = async (name: string) => {
+export const selectCategoryByName = async (name: string) => {
   const category: Category[] = await knexInstance("categories")
     .select("*")
     .where({ "categories.name": name });
   return category;
 };
 
-export const createNewCategory = async (name: string) => {
+export const insertCategory = async (name: string) => {
   const id: number[] = await knexInstance("categories").insert({ name });
   return id;
 };

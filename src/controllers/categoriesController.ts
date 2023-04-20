@@ -3,9 +3,9 @@ import knex from "knex";
 import config from "../../knexfile";
 import { Knex } from "knex";
 import {
-  categoriesNames,
-  categoryCreate,
-  categoryId,
+  getCategoriesNames,
+  createCategory,
+  getCategoryById,
   putCategory,
   removeCategory,
 } from "../services/categoriesServices";
@@ -14,7 +14,7 @@ const knexInstance: Knex = knex(config);
 
 const index = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const categoriesArray = await categoriesNames();
+    const categoriesArray = await getCategoriesNames();
     res.status(200).send(categoriesArray);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -24,7 +24,7 @@ const index = async (_req: Request, res: Response): Promise<void> => {
 const show = async (req: Request, res: Response): Promise<void> => {
   try {
     const id: number = parseInt(req.params.id);
-    const category = await categoryId(id);
+    const category = await getCategoryById(id);
     res.status(200).send(category);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
@@ -34,7 +34,7 @@ const show = async (req: Request, res: Response): Promise<void> => {
 const insert = async (req: Request, res: Response): Promise<void> => {
   try {
     const { name }: { name: string } = req.body;
-    const createdCategory = await categoryCreate(name);
+    const createdCategory = await createCategory(name);
     res.status(201).send(createdCategory);
   } catch (error: any) {
     res.send(error.message ? { error: error.message } : error);
